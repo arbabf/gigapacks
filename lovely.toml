@@ -1,0 +1,54 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = -10
+
+[[patches]]
+[patches.pattern]
+target = "engine/ui.lua"
+pattern = "if self == G.OVERLAY_MENU then G.REFRESH_ALERTS = true end"
+position = "after"
+payload = '''
+if self == G.shop and G.merge_button then G.merge_button:remove(); G.merge_button = nil; end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.SHOP_SIGN.alignment.offset.y = -15"
+position = "after"
+payload = '''
+if G.FUNCS.button_shown() then
+    G.FUNCS.show_button(false)
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.shop.alignment.offset.y = G.ROOM.T.y + 29"
+position = "after"
+payload = '''
+if G.FUNCS.button_shown() then
+    G.FUNCS.show_button(false)
+end
+'''
+match_indent = true
+times = 1
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = "G.shop.alignment.offset.py = nil"
+position = "after"
+payload = '''
+if G.FUNCS.can_merge() and G.FUNCS.button_shown() then
+    G.FUNCS.show_button(true)
+end
+'''
+match_indent = true
+times = 1

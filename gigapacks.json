@@ -1,0 +1,17 @@
+{
+	"id": "gigapacks",
+	"name": "Giga Booster Packs",
+	"display_name": "Giga Packs",
+	"author": ["arbabf"],
+	"description": "Replace two mega packs of the same type with a giga booster pack.",
+	"prefix": "gigapack",
+	"main_file": "main.lua",
+	"priority": 0,
+	"badge_colour": "8888FF",
+	"badge_text_colour": "FFFFFF",
+	"version": "0.1.0",
+	"dependencies": [
+		"Steamodded (>=1.*)",
+		"Lovely (>=0.6)"
+	],
+}
