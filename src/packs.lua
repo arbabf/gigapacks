@@ -3,7 +3,8 @@ SMODS.Booster {
     weight = 0,
     kind = 'Arcana', -- You can also use Arcana if you want it to belong to the vanilla kind
     cost = 12,
-    pos = { x = 2, y = 2 },
+    atlas = "GigaPacks",
+    pos = { x = 0, y = 0 },
     config = { extra = 12, choose = 5 },
     discovered = true,
     group_key = "k_arcana_pack",
@@ -56,7 +57,8 @@ SMODS.Booster {
     weight = 0,
     kind = 'Celestial', -- You can also use Celestial if you want it to belong to the vanilla kind
     cost = 10,
-    pos = { x = 2, y = 3 },
+    atlas = "GigaPacks",
+    pos = { x = 2, y = 0 },
     config = { extra = 9, choose = 3 }, -- 9 planets, or else the rest get replaced with Pluto.
     discovered = true,
     group_key = "k_celestial_pack",
@@ -130,7 +132,8 @@ SMODS.Booster {
     weight = 0,
     kind = 'Spectral', -- You can also use Spectral if you want it to belong to the vanilla kind
     cost = 12,
-    pos = { x = 3, y = 4 },
+    atlas = "GigaPacks",
+    pos = { x = 3, y = 0 },
     config = { extra = 8, choose = 4 },
     discovered = true,
     group_key = "k_spectral_pack",
@@ -166,14 +169,22 @@ SMODS.Booster {
 }
 
 SMODS.Booster {
-    key = "standard_giga",
+    key = "standard_giga_1",
     weight = 0,
     kind = 'Standard', -- You can also use Standard if you want it to belong to the vanilla kind
     cost = 12,
-    pos = { x = 2, y = 7 },
+    atlas = "GigaPacks",
+    pos = { x = 0, y = 1 },
     config = { extra = 12, choose = 5 },
     discovered = true,
     group_key = "k_standard_pack",
+    loc_vars = function(self, info_queue, card)
+        local cfg = (card and card.ability) or self.config
+        return {
+            vars = { cfg.choose, cfg.extra },
+            key = self.key:sub(1, -3), -- This uses the description key of the booster without the number at the end
+        }
+    end,
     ease_background_colour = function(self)
         ease_background_colour_blind(G.STATES.STANDARD_PACK)
     end,
@@ -208,14 +219,97 @@ SMODS.Booster {
 }
 
 SMODS.Booster {
-    key = "buffoon_giga",
+    key = "standard_giga_2",
+    weight = 0,
+    kind = 'Standard', -- You can also use Standard if you want it to belong to the vanilla kind
+    cost = 12,
+    atlas = "GigaPacks",
+    pos = { x = 1, y = 1 },
+    config = { extra = 12, choose = 5 },
+    discovered = true,
+    group_key = "k_standard_pack",
+    loc_vars = function(self, info_queue, card)
+        local cfg = (card and card.ability) or self.config
+        return {
+            vars = { cfg.choose, cfg.extra },
+            key = self.key:sub(1, -3), -- This uses the description key of the booster without the number at the end
+        }
+    end,
+    ease_background_colour = function(self)
+        ease_background_colour_blind(G.STATES.STANDARD_PACK)
+    end,
+    particles = function(self)
+        G.booster_pack_sparkles = Particles(1, 1, 0, 0, {
+            timer = 0.015,
+            scale = 0.3,
+            initialize = true,
+            lifespan = 3,
+            speed = 0.2,
+            padding = -1,
+            attach = G.ROOM_ATTACH,
+            colours = { G.C.BLACK, G.C.RED },
+            fill = true
+        })
+        G.booster_pack_sparkles.fade_alpha = 1
+        G.booster_pack_sparkles:fade(1, 0)
+    end,
+    create_card = function(self, card, i)
+        local _edition = poll_edition('standard_edition' .. G.GAME.round_resets.ante, 2, true)
+        local _seal = SMODS.poll_seal({ mod = 10 })
+        return {
+            set = "Playing Card",
+            edition = _edition,
+            seal = _seal,
+            area = G.pack_cards,
+            skip_materialize = true,
+            soulable = true,
+            key_append = "sta"
+        }
+    end,
+}
+
+SMODS.Booster {
+    key = "buffoon_giga_1",
     weight = 0,
     kind = 'Buffoon', -- You can also use Buffoon if you want it to belong to the vanilla kind
     cost = 12,
-    pos = { x = 3, y = 8 },
+    atlas = "GigaPacks",
+    pos = { x = 1, y = 0 },
     config = { extra = 8, choose = 4 },
     discovered = true,
     group_key = "k_buffoon_pack",
+    loc_vars = function(self, info_queue, card)
+        local cfg = (card and card.ability) or self.config
+        return {
+            vars = { cfg.choose, cfg.extra },
+            key = self.key:sub(1, -3), -- This uses the description key of the booster without the number at the end
+        }
+    end,
+    ease_background_colour = function(self)
+        ease_background_colour_blind(G.STATES.BUFFOON_PACK)
+    end,
+    create_card = function(self, card, i)
+        return { set = "Joker", area = G.pack_cards, skip_materialize = true, soulable = true, key_append = "buf" }
+    end,
+}
+
+SMODS.Booster {
+    key = "buffoon_giga_2",
+    weight = 0,
+    kind = 'Buffoon', -- You can also use Buffoon if you want it to belong to the vanilla kind
+    cost = 12,
+    atlas = "GigaPacks",
+    pos = { x = 2, y = 1 },
+    config = { extra = 8, choose = 4 },
+    discovered = true,
+    group_key = "k_buffoon_pack",
+    loc_vars = function(self, info_queue, card)
+        local cfg = (card and card.ability) or self.config
+        return {
+            vars = { cfg.choose, cfg.extra },
+            key = self.key:sub(1, -3), -- This uses the description key of the booster without the number at the end
+        }
+    end,
     ease_background_colour = function(self)
         ease_background_colour_blind(G.STATES.BUFFOON_PACK)
     end,

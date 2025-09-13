@@ -6,7 +6,7 @@ G.merge_button = nil
 
 G.FUNCS.merge_booster = function(e)
     G.FUNCS.show_button(false)
-    local center_key = "p_gigapack_" .. G.shop_booster.cards[1].config.center.kind:lower() .. "_giga"
+    local center_key = get_center_from_pack(G.shop_booster.cards[1])
     G.E_MANAGER:add_event(Event({
         trigger = 'after',
         blockable = false,
@@ -82,4 +82,14 @@ G.FUNCS.show_button = function(enable)
     end
     play_sound('cancel')
     button_shown = enable
+end
+
+function get_center_from_pack(pack)
+    local kind = pack.config.center.kind:lower()
+    local suffix = "_giga"
+    if kind == "buffoon" or kind == "standard" then
+        suffix = suffix .. "_" ..(math.random(1, 2))
+    end
+
+    return "p_gigapack_" .. G.shop_booster.cards[1].config.center.kind:lower() .. suffix
 end
